@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.Timer;
-
 /**
  * @author 韩宝坤
  * @date 2016/8/31 15:53
@@ -26,11 +24,8 @@ public class AnotateView extends View {
     private float pointY;
     private float downY;
     private float changeY;
-    private Timer mTimer;
 
     private boolean isStart = false;
-    private int startx = 20;
-    private int ends = 0;
     private int circleIn = 108;
 
     public AnotateView(Context context) {
@@ -50,11 +45,8 @@ public class AnotateView extends View {
 
     private void init() {
         linePaint = new Paint();
-        linePaint.setStyle(Paint.Style.FILL);
         linePaint.setAntiAlias(true);
-        linePaint.setStrokeWidth(4);
         linePaint.setColor(Color.BLUE);
-        mTimer = new Timer();
     }
 
     @Override
@@ -207,12 +199,9 @@ public class AnotateView extends View {
                 canvas.drawLine(line3SX, line3SY, line3EX, line3EY, linePaint);
             }
         } else {
-            float line2SX = centerX;
-            float line2SY = centerY - 50;
-            float line2EX = centerX;
-            float line2EY = centerY + 50;
-
-            canvas.drawLine(line2SX, line2SY, line2EX, line2EY, linePaint);
+            isStart = false;
+            changeY = 0;
+            invalidate();
         }
 
     }
@@ -241,19 +230,8 @@ public class AnotateView extends View {
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mTimer.schedule(new TimerTask() {
-//                            @Override
-//                            public void run() {
-//                                isStart = true;
-//                                invalidate();
-//
-//                            }
-//                        },100,100);
-//                    }
-//                }).start();
+                isStart = true;
+                invalidate();
                 break;
         }
         return true;
